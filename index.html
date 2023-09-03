@@ -20,4 +20,36 @@ h1 {
     justify-content: center;
 }
 </style>
+     <script>
+        // Disable right-click context menu
+        window.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+
+        // Disable keyboard shortcuts for screenshot
+        window.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && (e.key === 'PrintScreen' || e.key === 'Insert')) {
+                e.preventDefault();
+            }
+        });
+
+        // Disable screen capture through mediaDevices API
+        if (navigator.mediaDevices && navigator.mediaDevices.getDisplayMedia) {
+            navigator.mediaDevices.getDisplayMedia({
+                    video: true
+                })
+                .then(function(stream) {
+                    const tracks = stream.getVideoTracks();
+                    tracks[0].onended = function() {
+                        // Screen recording ended
+                        alert("Screen recording ended");
+                    };
+                })
+                .catch(function(error) {
+                    // Handle any errors here
+                    console.error("Error capturing screen: " + error);
+                });
+        }
+    </script>
+
 </html>
